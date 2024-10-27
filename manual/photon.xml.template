@@ -182,4 +182,8 @@
             <Label>POD CIDR Network</Label>
             <Description>Customize POD CIDR Network (Default 10.10.0.0/16)</Description>
         </Property>
+        <Property ovf:key="guestinfo.pause" ovf:type="string" ovf:userConfigurable="true" ovf:value="15">
+            <Label>Temporarily Pause</Label>
+            <Description>Temporarily halts the installation to ensure service dependencies and availability (Default 15s)</Description>
+        </Property>
     </ProductSection>

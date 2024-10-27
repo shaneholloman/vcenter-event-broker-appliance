@@ -5,6 +5,7 @@
 set -euo pipefail
 
 # Extract all OVF Properties
+VEBA_PAUSE=$(/root/setup/getOvfProperty.py "guestinfo.pause")
 VEBA_DEBUG=$(/root/setup/getOvfProperty.py "guestinfo.debug")
 TANZU_SOURCES_DEBUG=$(/root/setup/getOvfProperty.py "guestinfo.tanzu_sources_debug")
 HOSTNAME=$(/root/setup/getOvfProperty.py "guestinfo.hostname" | tr '[:upper:]' '[:lower:]')
@@ -66,6 +67,11 @@ else
         echo
 	fi
 
+	# Customize the pause if provided or else default to 15s
+	if [ -z "${VEBA_PAUSE}" ]; then
+		VEBA_PAUSE="15"
+	fi
+
 	# Customize the POD CIDR Network if provided or else default to 10.10.0.0/16
 	if [ -z "${POD_NETWORK_CIDR}" ]; then
 		POD_NETWORK_CIDR="10.16.0.0/16"
@@ -93,6 +99,7 @@ else
 
 	cat > /root/config/veba-config.json <<EOF
 {
+	"VEBA_PAUSE": "${VEBA_PAUSE}",
 	"VEBA_DEBUG": "${VEBA_DEBUG}",
 	"TANZU_SOURCES_DEBUG": "${TANZU_SOURCES_DEBUG}",
 	"HOSTNAME": "${HOSTNAME}",
